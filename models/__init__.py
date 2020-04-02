@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """create a unique FileStorage instance for your application"""
+
 from models.engine.file_storage import FileStorage
 from models.engine.db_storage import DBStorage
 from models.base_model import BaseModel
@@ -12,11 +13,9 @@ from models.review import Review
 from os import environ
 
 
-sqlStorage = environ.get('HBNB_TYPE_STORAGE')
-
-if sqlStorage == "db":
+storage_value = environ.get("HBNB_TYPE_STORAGE")
+if storage_value == "db":
     storage = DBStorage()
 else:
     storage = FileStorage()
-
 storage.reload()

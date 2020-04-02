@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This is the console for AirBnB"""
-"""This is the console for AirBnB"""
+
 import cmd
 from models import storage
 from datetime import datetime
@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
             obj = eval("{}()".format(my_list[0]))
             for i in range(1, len(my_list)):
                 temp = my_list[i]
-                temp = temp.replace("=" ," ")
+                temp = temp.replace("=", " ")
                 list_at = temp.split()
                 list_at[1] = list_at[1].replace("_", " ")
                 try:
