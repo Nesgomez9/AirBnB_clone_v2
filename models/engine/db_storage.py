@@ -44,7 +44,7 @@ class DBStorage:
         objects_dict = {}
         session = self.__session
         if not cls:
-            clases = [City, State]
+            clases = [City, State, User]
             for clas in clases:
                 objects = session.query(clas).all()
                 for obj in objects:
@@ -78,6 +78,6 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
-                                      expire_on_commit=False)
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
