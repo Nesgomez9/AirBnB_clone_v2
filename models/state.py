@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """This is the state class"""
-
 import models
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -20,9 +19,9 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         """ Return the list of the city with the same if os self.id"""
-        cities = models.storage.all(City)
         states = []
-        for city in cities.values():
+        cities_list = models.storage.all(City)
+        for city in cities_list.values():
             if city.state_id == self.id:
                 states.append(city)
         return states
