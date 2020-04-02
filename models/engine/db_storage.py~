@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+"""This is the class for DataBasetorage of the project AirBnB"""
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+from os import environ
+from models.base_model import Base
+from models.state import State
+
+class DBStorage:
+    """DBStorage class
+    Attributes:
+    __engine:
+    _session:
+    """
+
+    __engine = None
+    __session = None
+
+    def __init__(self):
+        """Declaration of the DBSstorage class
+        """
+        User = environ.get('HBNB_MYSQL_USER')
+        Psswd = environ.get('HBNB_MYSQL_PWD')
+        Host = environ.get('HBNB_MYSQL_HOST')
+        Db = environ.get('HBNB_MYSQL_DB')
+        Env = environ.get('HBNB_ENV')
+
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+                                      format(User, Psswd, Host, Db),
+                                      pool_pre_ping=True)
