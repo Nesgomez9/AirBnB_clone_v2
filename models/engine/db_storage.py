@@ -44,7 +44,7 @@ class DBStorage:
         objects_dict = {}
         session = self.__session
         if not cls:
-            clases = [User, State, City, Amenity, Place, Review]
+            clases = [City, State]
             for clas in clases:
                 objects = session.query(clas).all()
                 for obj in objects:
