@@ -58,10 +58,10 @@ class Place(BaseModel, Base):
             """
             amenities = models.storage.all(models.Amenity)
             place_amenities = []
-            for obj_aminities in amenities.values():
+            for obj_amenities in amenities.values():
                 for a_id in amenity_ids:
                     if a_id == obj_amenities.id:
-                        place_amenities.append(amenity_ins)
+                        place_amenities.append(obj_amenities)
             return place_amenities
 
         @amenities.setter
