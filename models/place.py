@@ -7,6 +7,18 @@ from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy import ForeignKey, MetaData, Table
 from sqlalchemy.orm import relationship
 
+place_amenity = Table("place_amenity", Base.metadata,
+                      Column("place_id",
+                             String(60),
+                             ForeignKey("places.id"),
+                             primary_key=True,
+                             nullable=False),
+                      Column("amenity_id",
+                             String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True,
+                             nullable=False))
+
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -35,3 +47,26 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+    if environ.get('HBNB_TYPE_STORAGE') == "db":
+        amenities = relationship("Amenity",
+                                 secondary=place_amenity,
+                                 viewonly=False)
+    else:
+        @property
+        def amenities(self):
+            """amenities getter property for FileStorage
+            """
+            amenities = models.storage.all(models.Amenity)
+            place_amenities = []
+            for obj_aminities in amenities.values():
+                for a_id in amenity_ids:
+                    if a_id == obj_amenities.id:
+                        place_amenities.append(amenity_ins)
+            return place_amenities
+
+        @amenities.setter
+        def amenities(self, obj):
+            """amenities setter property for FileStorage
+            """
+            if isinstance(obj, models.Amenity):
+                self.amenity_ids.append(obj.id)
