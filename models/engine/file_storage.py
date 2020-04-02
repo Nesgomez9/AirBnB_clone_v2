@@ -53,14 +53,18 @@ class FileStorage:
             json.dump(my_dict, f)
 
     def reload(self):
-        """serialize the file path to JSON file path
-        """
+        """This function loads every dictionary representation of the object"""
+        Class_type = {'BaseModel': BaseModel, 'User': User,
+                      'State': State}
         try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
-        except FileNotFoundError:
+            with open(FileStorage.__file_path, 'r') as f:
+                Loaded_file = load(f)
+                for key in Loaded_file.keys():
+                    for Class, instance in Class_type.items():
+                        if Loaded_file[key]['__class__'] == Class:
+                            FileStorage.__objects[key] = (
+                                (instance)(**Loaded_file[key]))
+        except:
             pass
 
     def delete(self, obj=None):
