@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 """This is the place class"""
 import models
-from os import environ
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float
-from sqlalchemy import ForeignKey, MetaData, Table
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Integer, ForeignKey, MetaData, Float
+from sqlalchemy.orm import relationship, backref
 
 
 class Place(BaseModel, Base):
@@ -42,8 +40,8 @@ class Place(BaseModel, Base):
         """ Return the list of the review
         """
         reviews = []
-        reviews_list = models.storage.all("Review")
+        reviews_list = models.storage.all(Review)
         for review in reviews_list.values():
             if review.place_id == self.id:
-                review.append(review)
-        return review
+                reviews.append(review)
+        return reviews
