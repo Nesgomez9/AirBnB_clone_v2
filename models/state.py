@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 """This is the state class"""
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from models.city import City
+from sqlalchemy import Column, Integer, String, ForeignKey, MetaData
+from sqlalchemy.orm import relationship, backref
+import models
+from os import environ
 
 
 class State(BaseModel):
@@ -9,7 +14,6 @@ class State(BaseModel):
         name: input name
     """
     __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
     name = Column(String(128), nullable=False)
     if environ.get('HBNB_TYPE_STORAGE') == "db":
         cities = relationship('City', backref="state",

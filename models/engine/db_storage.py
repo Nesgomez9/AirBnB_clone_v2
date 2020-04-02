@@ -1,10 +1,20 @@
 #!/usr/bin/python3
 """This is the class for DataBasetorage of the project AirBnB"""
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
-from os import environ
+"""This is the state class"""
 from models.base_model import Base
+from models.user import User
 from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+from sqlalchemy import (create_engine)
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
+
+from os import environ
+
 
 class DBStorage:
     """DBStorage class
