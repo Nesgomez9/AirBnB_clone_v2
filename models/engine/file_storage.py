@@ -20,12 +20,19 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """returns a dictionary
         Return:
             returns a dictionary of __object
         """
-        return self.__objects
+        dic_cls = {}
+        if cls:
+            for key, value in self.__objects.items():
+                if cls == type(value):
+                    dic_cls[key] = value
+            return dic_cls
+        else:
+            return self.__objects
 
     def new(self, obj):
         """sets __object to given obj
@@ -46,12 +53,25 @@ class FileStorage:
             json.dump(my_dict, f)
 
     def reload(self):
-        """serialize the file path to JSON file path
-        """
+        """This function loads every dictionary representation of the object"""
+        Class_type = {'BaseModel': BaseModel, 'User': User,
+                      'State': State}
         try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
-        except FileNotFoundError:
+            with open(FileStorage.__file_path, 'r') as f:
+                Loaded_file = load(f)
+                for key in Loaded_file.keys():
+                    for Class, instance in Class_type.items():
+                        if Loaded_file[key]['__class__'] == Class:
+                            FileStorage.__objects[key] = (
+                                (instance)(**Loaded_file[key]))
+        except:
+            pass
+
+    def delete(self, obj=None):
+        """delete the object if exists"""
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
+        else:
             pass
