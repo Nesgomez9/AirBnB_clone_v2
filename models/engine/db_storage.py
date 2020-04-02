@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This is the class for DataBasetorage of the project AirBnB"""
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import environ
@@ -45,7 +46,7 @@ class DBStorage:
         if not cls:
             clases = [User, State, City, Amenity, Place, Review]
             for clas in clases:
-                objects = session.query(cls).all()
+                objects = session.query(clas).all()
             for obj in objects:
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 objects_dict[key] = obj
