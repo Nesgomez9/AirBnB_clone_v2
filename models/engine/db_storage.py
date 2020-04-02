@@ -55,7 +55,7 @@ class DBStorage:
             for obj in objects:
                 key = "{}.{}".format(type(obj).__name, on.__id)
                 objects_dict[key] = obj
-        return ob_dict
+        return objects_dict
 
     def new(self, obj):
         """new method
