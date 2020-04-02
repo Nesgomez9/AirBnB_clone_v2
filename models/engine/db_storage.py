@@ -16,8 +16,8 @@ from models.review import Review
 class DBStorage:
     """DBStorage class
     Attributes:
-    __engine:
-    _session:
+       __engine:
+       __session:
     """
 
     __engine = None
@@ -41,8 +41,8 @@ class DBStorage:
     def all(self, cls=None):
         """ Show all objects of a class
         """
-        session = self.__session
         objects_dict = {}
+        session = self.__session
         if not cls:
             clases = [User, State, City, Amenity, Place, Review]
             for clas in clases:
@@ -78,6 +78,6 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+                                      expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
