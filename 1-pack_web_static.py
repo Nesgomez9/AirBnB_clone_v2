@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 
 from fabric.api import *
-from datetime  import datetime
+from datetime import datetime
+
 
 def do_pack():
+
     try:
         local("mkdir -p versions")
         date = datetime.now().strftime('%Y%m%d%H%M%S')
