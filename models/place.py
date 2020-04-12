@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """This is the place class"""
 import models
-from os import environ
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float
-from sqlalchemy import ForeignKey, MetaData, Table
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import MetaData, Float, Table
+from sqlalchemy.orm import relationship, backref
+from os import environ
+
 
 place_amenity = Table("place_amenity", Base.metadata,
                       Column("place_id",
@@ -47,10 +48,25 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+    reviews = relationship("Review", cascade="all, delete", backref="place")
+
+
+    @property
+    def reviews(self):
+        """ Return the list of the review
+        """
+        reviews = []
+        reviews_list = models.storage.all(Review)
+        for review in reviews_list.values():
+            if review.place_id == self.id:
+                reviews.append(review)
+        return reviews
+
     if environ.get('HBNB_TYPE_STORAGE') == "db":
         amenities = relationship("Amenity",
                                  secondary=place_amenity,
                                  viewonly=False)
+
     else:
         @property
         def amenities(self):
